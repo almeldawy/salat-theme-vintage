@@ -196,12 +196,62 @@
 
         .col-secondary { color: var(--subtle); font-size: 0.85rem; }
 
-        /* Adaptabilité mobile */
-        @media (max-width: 600px) {
-            h1 { font-size: 1.2rem; }
-            .glass-card { padding: 15px; }
-            td { font-size: 0.75rem; }
-            th { font-size: 0.35rem; }
+        /* DESIGN RESPONSIVE MOBILE */
+        @media (max-width: 768px) {
+            body { padding-top: 80px; }
+            .controls-top { right: 10px; top: 10px; }
+            .action-btn { padding: 8px 10px; font-size: 0.45rem; }
+            
+            h1 { font-size: 1.2rem; letter-spacing: 2px; }
+            .glass-card { padding: 15px; border-width: 2px; box-shadow: 5px 5px 0px var(--accent); }
+            input { width: 80%; font-size: 0.9rem; }
+
+            /* Transformation du tableau en liste de cartes sur mobile */
+            thead { display: none; } /* On cache les en-têtes de colonnes */
+            
+            tr { 
+                display: grid; 
+                grid-template-columns: repeat(4, 1fr); /* 4 colonnes pour les heures */
+                grid-template-areas: 
+                    "date date date date"
+                    "fajr sunrise dhuhr asr"
+                    "maghrib isha midnight empty";
+                gap: 5px;
+                padding: 15px 5px;
+                border-bottom: 2px solid var(--grid-line);
+            }
+
+            td { 
+                display: flex; 
+                flex-direction: column; 
+                align-items: center; 
+                justify-content: center;
+                border: none; 
+                padding: 5px 2px; 
+                font-size: 0.8rem;
+            }
+
+            /* Ajout de labels pour identifier les prières sur mobile */
+            td::before {
+                content: attr(data-label);
+                font-family: 'Press Start 2P', cursive;
+                font-size: 0.35rem;
+                color: var(--subtle);
+                margin-bottom: 4px;
+                text-transform: uppercase;
+            }
+
+            /* Configuration des zones de la grille mobile */
+            td:nth-child(1) { grid-area: date; flex-direction: row; gap: 10px; border-bottom: 1px solid var(--secondary); margin-bottom: 5px; }
+            td:nth-child(1)::before { content: ""; } /* Pas de label pour la date */
+            
+            td:nth-child(2) { grid-area: fajr; }
+            td:nth-child(3) { grid-area: sunrise; }
+            td:nth-child(4) { grid-area: dhuhr; }
+            td:nth-child(5) { grid-area: asr; }
+            td:nth-child(6) { grid-area: maghrib; }
+            td:nth-child(7) { grid-area: isha; }
+            td:nth-child(8) { grid-area: midnight; }
         }
 
         /* CONFIGURATION POUR L'IMPRESSION (A4) - OPTIMISÉE POUR UNE SEULE PAGE */
@@ -250,18 +300,24 @@
             table { 
                 width: 100% !important;
                 table-layout: fixed; /* Fixe la largeur des colonnes */
+                display: table !important; /* Force le mode tableau classique */
             }
+            thead { display: table-header-group !important; }
+            tr { display: table-row !important; }
+            td { 
+                display: table-cell !important;
+                padding: 3px 1px !important; /* Espacement vertical minimal pour les lignes */
+                font-size: 0.75rem !important; /* Police réduite */
+                border-bottom: 0.5px solid #ccc !important;
+                color: black !important;
+            }
+            td::before { display: none !important; } /* Cache les labels mobiles à l'impression */
+            
             th { 
                 font-size: 0.35rem !important; /* En-tête plus petit */
                 color: black !important; 
                 border-bottom: 1px solid black !important;
                 padding: 4px 1px !important; /* Espacement minimal */
-            }
-            td { 
-                padding: 3px 1px !important; /* Espacement vertical minimal pour les lignes */
-                font-size: 0.75rem !important; /* Police réduite */
-                border-bottom: 0.5px solid #ccc !important;
-                color: black !important;
             }
             .day-name { 
                 color: black !important; 
@@ -391,15 +447,16 @@
                     let rowClass = isToday ? "today-row" : (isFriday ? "friday-row" : "");
                     if(isWeekend) rowClass += " weekend-row";
 
+                    // On ajoute des attributs data-label pour le responsive mobile
                     html += `<tr class="${rowClass}">
                         <td><span class="day-name">${daysFr[dayIndex]}</span>${day.date.gregorian.day}</td>
-                        <td>${formatHeure(day.timings.Fajr)}</td>
-                        <td class="col-secondary">${formatHeure(day.timings.Sunrise)}</td>
-                        <td>${formatHeure(day.timings.Dhuhr)}</td>
-                        <td>${formatHeure(day.timings.Asr)}</td>
-                        <td>${formatHeure(day.timings.Maghrib)}</td>
-                        <td>${formatHeure(day.timings.Isha)}</td>
-                        <td class="col-secondary">${formatHeure(day.timings.Midnight)}</td>
+                        <td data-label="Fajr">${formatHeure(day.timings.Fajr)}</td>
+                        <td data-label="Levée" class="col-secondary">${formatHeure(day.timings.Sunrise)}</td>
+                        <td data-label="Dhuhr">${formatHeure(day.timings.Dhuhr)}</td>
+                        <td data-label="Asr">${formatHeure(day.timings.Asr)}</td>
+                        <td data-label="Maghrib">${formatHeure(day.timings.Maghrib)}</td>
+                        <td data-label="Isha">${formatHeure(day.timings.Isha)}</td>
+                        <td data-label="Nuit" class="col-secondary">${formatHeure(day.timings.Midnight)}</td>
                     </tr>`;
                 });
                 // Mise à jour de l'interface
