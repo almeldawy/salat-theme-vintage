@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horaires de Prières - 80s Multi-Theme</title>
     
-    <!-- Importation des polices Google : Style Pixel, Futuriste et Sans-Serif -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&family=Exo+2:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     
     <style>
@@ -350,7 +349,6 @@
 </head>
 <body data-theme="light">
 
-    <!-- Boutons d'interface -->
     <div class="controls-top">
         <button class="action-btn" onclick="window.print()">IMPRIMER</button>
         <button class="action-btn" id="theme-btn">CHANGER THÈME</button>
@@ -443,6 +441,28 @@
                     const isWeekend = (dayIndex === 0 || dayIndex === 6); // Dimanche=0, Samedi=6
                     const isToday = isCurrentMonth && parseInt(day.date.gregorian.day) === today;
                     
+                    // --- CALCUL DU MILIEU DE LA NUIT (Limite Isha) ---
+                    // On extrait Maghrib et Fajr du jour en cours
+                    const maghribStr = day.timings.Maghrib.split(' ')[0];
+                    const fajrStr = day.timings.Fajr.split(' ')[0];
+                    
+                    const [hM, mM] = maghribStr.split(':').map(Number);
+                    const [hF, mF] = fajrStr.split(':').map(Number);
+                    
+                    let magMin = hM * 60 + mM;
+                    let fajMin = hF * 60 + mF;
+                    
+                    // Si Fajr < Maghrib, c'est que le Fajr appartient au lendemain matin (cas standard)
+                    if (fajMin < magMin) fajMin += 1440;
+                    
+                    const dureeNuit = fajMin - magMin;
+                    const milieuMinTotal = (magMin + (dureeNuit / 2)) % 1440;
+                    
+                    const hN = Math.floor(milieuMinTotal / 60);
+                    const mN = Math.round(milieuMinTotal % 60);
+                    const minuitIslamique = hN + ":" + mN.toString().padStart(2, '0');
+                    // ---------------------------------------------------
+
                     // Assignation des classes CSS pour les lignes spécifiques
                     let rowClass = isToday ? "today-row" : (isFriday ? "friday-row" : "");
                     if(isWeekend) rowClass += " weekend-row";
@@ -456,7 +476,7 @@
                         <td data-label="Asr">${formatHeure(day.timings.Asr)}</td>
                         <td data-label="Maghrib">${formatHeure(day.timings.Maghrib)}</td>
                         <td data-label="Isha">${formatHeure(day.timings.Isha)}</td>
-                        <td data-label="Nuit" class="col-secondary">${formatHeure(day.timings.Midnight)}</td>
+                        <td data-label="Nuit" class="col-secondary">${minuitIslamique}</td>
                     </tr>`;
                 });
                 // Mise à jour de l'interface
