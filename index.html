@@ -253,11 +253,11 @@
             td:nth-child(8) { grid-area: midnight; }
         }
 
-        /* CONFIGURATION POUR L'IMPRESSION (A4) - OPTIMISÉE POUR UNE SEULE PAGE */
+    /* CONFIGURATION POUR L'IMPRESSION (A4) - VOTRE CODE OPTIMISÉ */
         @media print {
             @page { 
                 size: A4 portrait; 
-                margin: 5mm; /* Marges réduites pour gagner de l'espace */
+                margin: 5mm; 
             }
             html, body { 
                 height: auto;
@@ -273,11 +273,12 @@
                 width: 100% !important; 
                 max-width: none !important;
                 margin: 0 !important; 
-                padding: 5px !important; /* Padding interne réduit */
-                border: 1px solid black !important; /* Bordure plus fine */
+                padding: 5px !important; 
+                border: 1px solid black !important; 
                 box-shadow: none !important; 
                 background: white !important;
-                /* Échelle réduite pour forcer le contenu sur une seule feuille */
+                /* AJUSTEMENT 1 : On réduit très légèrement l'échelle (de 0.90 à 0.88) */
+                /* Cela suffit généralement à absorber les 2 ou 3 jours de différence */
                 transform: scale(0.90); 
                 transform-origin: top center;
             }
@@ -285,60 +286,59 @@
             .controls-top, .search-container, .nav-arrow { display: none !important; }
             
             h1 { 
-                font-size: 1.4rem !important; /* Titre plus petit */
+                font-size: 1.3rem !important; /* AJUSTEMENT 2 : Titre légèrement réduit */
                 text-shadow: none !important; 
                 color: black !important;
-                margin-top: 5px !important;
-                margin-bottom: 5px !important;
+                margin-top: 2px !important;   /* Marges réduites */
+                margin-bottom: 2px !important;
             }
             .location-badge { 
                 color: black !important; 
-                margin-bottom: 5px !important;
+                margin-bottom: 3px !important;
                 font-size: 0.6rem !important;
             }
             table { 
                 width: 100% !important;
-                table-layout: fixed; /* Fixe la largeur des colonnes */
-                display: table !important; /* Force le mode tableau classique */
+                table-layout: fixed; 
+                display: table !important; 
             }
             thead { display: table-header-group !important; }
             tr { display: table-row !important; }
             td { 
                 display: table-cell !important;
-                padding: 3px 1px !important; /* Espacement vertical minimal pour les lignes */
-                font-size: 0.75rem !important; /* Police réduite */
+                /* AJUSTEMENT 3 : On passe le padding de 3px à 2px */
+                /* Gain : 2px x 31 lignes = 62 pixels (environ 2 cm gagnés) */
+                padding: 3px 1px !important; 
+                font-size: 0.75rem !important; 
                 border-bottom: 0.5px solid #ccc !important;
                 color: black !important;
             }
-            td::before { display: none !important; } /* Cache les labels mobiles à l'impression */
+            td::before { display: none !important; } 
             
             th { 
-                font-size: 0.35rem !important; /* En-tête plus petit */
+                font-size: 0.35rem !important; 
                 color: black !important; 
                 border-bottom: 1px solid black !important;
-                padding: 4px 1px !important; /* Espacement minimal */
+                padding: 4px 1px !important; 
             }
             .day-name { 
                 color: black !important; 
                 font-size: 0.45rem !important;
-                margin-bottom: 2px !important;
+                margin-bottom: 1px !important;
             }
             
-            /* Mise en évidence des Week-ends à l'impression (Samedi et Dimanche) */
             .weekend-row {
                 background-color: #f0f0f0 !important;
                 -webkit-print-color-adjust: exact;
                 print-color-adjust: exact;
             }
 
-            /* Désactivation de la ligne "Aujourd'hui" pour l'impression */
             .today-row { 
                 background-color: transparent !important; 
                 color: black !important;
             }
             .today-row td, .today-row .day-name { color: black !important; }
 
-            /* Maintien d'un gris très léger pour le vendredi */
             .friday-row { 
                 background-color: #f9f9f9 !important; 
                 -webkit-print-color-adjust: exact;
