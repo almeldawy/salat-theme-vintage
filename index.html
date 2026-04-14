@@ -39,7 +39,6 @@
         body {
             font-family: 'Exo 2', sans-serif;
             background-color: var(--bg);
-            /* Création du quadrillage rétro en arrière-plan */
             background-image: 
                 linear-gradient(var(--grid-line) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -50,16 +49,14 @@
             display: flex; 
             flex-direction: column; 
             align-items: center;
-            transition: all 0.4s ease; /* Transition douce lors du changement de thème */
+            transition: all 0.4s ease;
         }
 
-        /* Barre de boutons en haut à droite */
         .controls-top {
             position: fixed; top: 20px; right: 20px;
             display: flex; gap: 10px; z-index: 1000;
         }
 
-        /* Style commun des boutons d'action avec ombre portée solide (effet 8-bit) */
         .action-btn {
             background: var(--card);
             border: 2px solid var(--secondary); 
@@ -79,7 +76,6 @@
             color: var(--accent);
         }
 
-        /* Conteneur principal avec effet "verre" et bordures néon */
         .glass-card {
             background: var(--card);
             border: 4px solid var(--secondary);
@@ -91,7 +87,6 @@
             overflow: hidden;
         }
 
-        /* Effet scanline (lignes horizontales) uniquement pour le mode sombre (look écran cathodique) */
         [data-theme="dark"] .glass-card::before {
             content: " ";
             position: absolute; top: 0; left: 0; bottom: 0; right: 0;
@@ -101,7 +96,6 @@
             pointer-events: none;
         }
 
-        /* Navigation entre les mois */
         .header-navigation {
             display: flex;
             align-items: center;
@@ -143,7 +137,6 @@
             margin-bottom: 20px;
         }
 
-        /* Champ de recherche de ville */
         .search-container { text-align:center; margin-bottom:30px; }
         input { 
             background: transparent; 
@@ -158,7 +151,6 @@
             color: var(--text);
         }
 
-        /* Mise en forme du tableau des horaires */
         table { width: 100%; border-collapse: collapse; position: relative; z-index: 10; }
         th { 
             font-family: 'Press Start 2P', cursive;
@@ -185,7 +177,7 @@
             margin-bottom: 5px;
         }
 
-        /* Couleurs pour les lignes spéciales (Vendredi et Aujourd'hui) */
+        /* La classe friday-row est utilisée pour le surlignage couleur pastel/néon */
         .friday-row { background: var(--friday-glow); }
         .today-row { 
             background: var(--text) !important; 
@@ -195,7 +187,6 @@
 
         .col-secondary { color: var(--subtle); font-size: 0.85rem; }
 
-        /* DESIGN RESPONSIVE MOBILE */
         @media (max-width: 768px) {
             body { padding-top: 80px; }
             .controls-top { right: 10px; top: 10px; }
@@ -205,12 +196,11 @@
             .glass-card { padding: 15px; border-width: 2px; box-shadow: 5px 5px 0px var(--accent); }
             input { width: 80%; font-size: 0.9rem; }
 
-            /* Transformation du tableau en liste de cartes sur mobile */
-            thead { display: none; } /* On cache les en-têtes de colonnes */
+            thead { display: none; } 
             
             tr { 
                 display: grid; 
-                grid-template-columns: repeat(4, 1fr); /* 4 colonnes pour les heures */
+                grid-template-columns: repeat(4, 1fr); 
                 grid-template-areas: 
                     "date date date date"
                     "fajr sunrise dhuhr asr"
@@ -230,7 +220,6 @@
                 font-size: 0.8rem;
             }
 
-            /* Ajout de labels pour identifier les prières sur mobile */
             td::before {
                 content: attr(data-label);
                 font-family: 'Press Start 2P', cursive;
@@ -240,9 +229,8 @@
                 text-transform: uppercase;
             }
 
-            /* Configuration des zones de la grille mobile */
             td:nth-child(1) { grid-area: date; flex-direction: row; gap: 10px; border-bottom: 1px solid var(--secondary); margin-bottom: 5px; }
-            td:nth-child(1)::before { content: ""; } /* Pas de label pour la date */
+            td:nth-child(1)::before { content: ""; } 
             
             td:nth-child(2) { grid-area: fajr; }
             td:nth-child(3) { grid-area: sunrise; }
@@ -253,7 +241,6 @@
             td:nth-child(8) { grid-area: midnight; }
         }
 
-    /* CONFIGURATION POUR L'IMPRESSION (A4) - VOTRE CODE OPTIMISÉ */
         @media print {
             @page { 
                 size: A4 portrait; 
@@ -277,8 +264,6 @@
                 border: 1px solid black !important; 
                 box-shadow: none !important; 
                 background: white !important;
-                /* AJUSTEMENT 1 : On réduit très légèrement l'échelle (de 0.90 à 0.88) */
-                /* Cela suffit généralement à absorber les 2 ou 3 jours de différence */
                 transform: scale(0.90); 
                 transform-origin: top center;
             }
@@ -286,10 +271,10 @@
             .controls-top, .search-container, .nav-arrow { display: none !important; }
             
             h1 { 
-                font-size: 1.3rem !important; /* AJUSTEMENT 2 : Titre légèrement réduit */
+                font-size: 1.3rem !important; 
                 text-shadow: none !important; 
                 color: black !important;
-                margin-top: 2px !important;   /* Marges réduites */
+                margin-top: 2px !important;  
                 margin-bottom: 2px !important;
             }
             .location-badge { 
@@ -306,8 +291,6 @@
             tr { display: table-row !important; }
             td { 
                 display: table-cell !important;
-                /* AJUSTEMENT 3 : On passe le padding de 3px à 2px */
-                /* Gain : 2px x 31 lignes = 62 pixels (environ 2 cm gagnés) */
                 padding: 3px 1px !important; 
                 font-size: 0.75rem !important; 
                 border-bottom: 0.5px solid #ccc !important;
@@ -385,19 +368,14 @@
     </div>
 
     <script>
-        // Libellés pour les dates
         const daysFr = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
         const monthsFr = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
         
-        // État de l'application
         let currentYear = new Date().getFullYear();
         let currentMonth = new Date().getMonth() + 1;
         let currentCity = null;
         let currentCoords = { lat: null, lon: null };
 
-        /**
-         * Nettoie le format de l'heure renvoyé par l'API (ex: 05:42 (CEST) -> 05:42)
-         */
         function formatHeure(heureBrute) {
             if(!heureBrute) return "-";
             const heureSeule = heureBrute.split(' ')[0];
@@ -407,12 +385,6 @@
             return h + ":" + m;
         }
 
-        /**
-         * Récupère les horaires depuis l'API Aladhan
-         * @param {number} lat - Latitude
-         * @param {number} lon - Longitude
-         * @param {string} city - Nom de la ville (optionnel)
-         */
         function fetchPrayers(lat, lon, city = null) {
             if (city) {
                 currentCity = city;
@@ -422,7 +394,6 @@
                 currentCity = null;
             }
 
-            // Construction de l'URL de l'API (Coordonnées ou Adresse)
             let url = `https://api.aladhan.com/v1/calendar/${currentYear}/${currentMonth}?latitude=${currentCoords.lat}&longitude=${currentCoords.lon}&method=3`;
             if(currentCity) url = `https://api.aladhan.com/v1/calendarByAddress/${currentYear}/${currentMonth}?address=${currentCity}&method=3`;
 
@@ -437,37 +408,33 @@
                     const dateParts = day.date.gregorian.date.split('-');
                     const dateObj = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
                     const dayIndex = dateObj.getDay();
-                    const isFriday = dayIndex === 5;
-                    const isWeekend = (dayIndex === 0 || dayIndex === 6); // Dimanche=0, Samedi=6
+                    
+                    // --- CHANGEMENT ICI ---
+                    const isFriday = false; // Suppression du surlignage spécifique au vendredi
+                    const isWeekend = (dayIndex === 0 || dayIndex === 6); // Samedi ou Dimanche
+                    // ----------------------
+                    
                     const isToday = isCurrentMonth && parseInt(day.date.gregorian.day) === today;
                     
-                    // --- CALCUL DU MILIEU DE LA NUIT (Limite Isha) ---
-                    // On extrait Maghrib et Fajr du jour en cours
                     const maghribStr = day.timings.Maghrib.split(' ')[0];
                     const fajrStr = day.timings.Fajr.split(' ')[0];
-                    
                     const [hM, mM] = maghribStr.split(':').map(Number);
                     const [hF, mF] = fajrStr.split(':').map(Number);
-                    
                     let magMin = hM * 60 + mM;
                     let fajMin = hF * 60 + mF;
-                    
-                    // Si Fajr < Maghrib, c'est que le Fajr appartient au lendemain matin (cas standard)
                     if (fajMin < magMin) fajMin += 1440;
-                    
                     const dureeNuit = fajMin - magMin;
                     const milieuMinTotal = (magMin + (dureeNuit / 2)) % 1440;
-                    
                     const hN = Math.floor(milieuMinTotal / 60);
                     const mN = Math.round(milieuMinTotal % 60);
                     const minuitIslamique = hN + ":" + mN.toString().padStart(2, '0');
-                    // ---------------------------------------------------
 
-                    // Assignation des classes CSS pour les lignes spécifiques
-                    let rowClass = isToday ? "today-row" : (isFriday ? "friday-row" : "");
+                    // --- LOGIQUE DE CLASSE MISE À JOUR ---
+                    // Si c'est aujourd'hui, on met le style today. 
+                    // Sinon, si c'est le week-end, on applique le surlignage "friday-row".
+                    let rowClass = isToday ? "today-row" : (isWeekend ? "friday-row" : "");
                     if(isWeekend) rowClass += " weekend-row";
 
-                    // On ajoute des attributs data-label pour le responsive mobile
                     html += `<tr class="${rowClass}">
                         <td><span class="day-name">${daysFr[dayIndex]}</span>${day.date.gregorian.day}</td>
                         <td data-label="Fajr">${formatHeure(day.timings.Fajr)}</td>
@@ -479,16 +446,12 @@
                         <td data-label="Nuit" class="col-secondary">${minuitIslamique}</td>
                     </tr>`;
                 });
-                // Mise à jour de l'interface
                 document.getElementById('calendrier-body').innerHTML = html;
                 document.getElementById('location-text').innerText = currentCity ? currentCity.toUpperCase() : "MA POSITION";
                 document.getElementById('titre-mois').innerText = `${monthsFr[currentMonth - 1]} ${currentYear}`;
             });
         }
 
-        /**
-         * Gère le changement de mois via les flèches
-         */
         function changeMonth(diff) {
             currentMonth += diff;
             if (currentMonth > 12) {
@@ -501,9 +464,6 @@
             fetchPrayers(currentCoords.lat, currentCoords.lon, currentCity);
         }
 
-        /**
-         * Applique le thème (Clair ou Sombre) et le sauvegarde localement
-         */
         function applyTheme(theme) {
             const b = document.body;
             const btn = document.getElementById('theme-btn');
@@ -512,30 +472,24 @@
             localStorage.setItem('user-theme', theme);
         }
 
-        // Événement clic sur le bouton de thème
         document.getElementById('theme-btn').onclick = () => {
             const currentTheme = document.body.getAttribute('data-theme');
             const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
             applyTheme(newTheme);
         };
 
-        // Recherche de ville quand on appuie sur Entrée
         document.getElementById('ville-input').onkeypress = (e) => {
             if(e.key === 'Enter') {
                 fetchPrayers(null, null, e.target.value);
             }
         };
 
-        // Initialisation au chargement de la page
         window.onload = () => {
-            // Récupération du thème sauvegardé
             const savedTheme = localStorage.getItem('user-theme') || 'light';
             applyTheme(savedTheme);
-
-            // Tentative de géolocalisation de l'utilisateur
             navigator.geolocation.getCurrentPosition(
                 p => fetchPrayers(p.coords.latitude, p.coords.longitude),
-                () => fetchPrayers(null, null, "Paris") // Fallback sur Paris en cas de refus
+                () => fetchPrayers(null, null, "Paris")
             );
         };
     </script>
