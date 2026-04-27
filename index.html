@@ -489,7 +489,7 @@
             applyTheme(savedTheme);
             navigator.geolocation.getCurrentPosition(
                 p => fetchPrayers(p.coords.latitude, p.coords.longitude),
-                () => fetchPrayers(null, null, "Paris")
+                () => fetchPrayers(null, null, "Clichy-sous-bois")
             );
         };
     </script>
